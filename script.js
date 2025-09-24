@@ -100,9 +100,9 @@ form.addEventListener("submit", (e) => {
 		passwordInput.focus();
 		return;
 	}
-	if (!passwordConfirmInput.validity.valid) {
+	if (!confirmPasswordInput.validity.valid) {
 		alert("Invalid confirm password");
-		passwordConfirmInput.focus();
+		confirmPasswordInput.focus();
 		return;
 	}
 
