@@ -10,13 +10,13 @@ const emailError = document.querySelector("#emailError");
 const passwordError = document.querySelector("#passwordError");
 const passwordConfirmError = document.querySelector("#confirmPasswordError");
 
-form.addEventListener("submit", (event) => {
-	event.preventDefault();
-	console.log(userNameInput.validity.valid);
-	if (userNameInput.validity.valid) {
-		console.log("submitted");
+//after document is loaded
+document.addEventListener("DOMContentLoaded", function () {
+	if (localStorage.getItem("userNameFormMod5") !== null) {
+		userNameInput.value = localStorage.getItem("userNameFormMod5");
+		console.log(localStorage.getItem("userNameFormMod5"));
 	} else {
-		console.log("not submitted");
+		console.log("No localStorage found");
 	}
 });
 
@@ -82,6 +82,7 @@ confirmPasswordInput.addEventListener("input", () => {
 	passwordConfirmError.textContent = confirmPasswordInput.validationMessage;
 });
 
+//form submit
 form.addEventListener("submit", (e) => {
 	e.preventDefault();
 
@@ -106,6 +107,7 @@ form.addEventListener("submit", (e) => {
 		return;
 	}
 
-	alert("You information is saved! 🎉");
+	alert("You are registered! 🎉");
+	localStorage.setItem("userNameFormMod5", userNameInput.value);
 	form.reset();
 });
