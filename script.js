@@ -8,7 +8,7 @@ const confirmPasswordInput = document.querySelector("#confirmPassword");
 const usernameError = document.querySelector("#usernameError");
 const emailError = document.querySelector("#emailError");
 const passwordError = document.querySelector("#passwordError");
-const passwordConfirmError = document.querySelector("#usernameError");
+const passwordConfirmError = document.querySelector("#confirmPasswordError");
 
 form.addEventListener("submit", (event) => {
 	event.preventDefault();
@@ -34,7 +34,7 @@ userNameInput.addEventListener("input", (e) => {
 
 //email
 emailInput.addEventListener("input", (e) => {
-	if (emailInput.validity.valueMissing) {
+	if (emailInput.validity.typeMismatch) {
 		emailInput.setCustomValidity(
 			"Please enter a valid email address, for example, name@example.com."
 		);
@@ -47,4 +47,65 @@ emailInput.addEventListener("input", (e) => {
 });
 
 //password
-passwordInput.addEventListener("input", () => {});
+passwordInput.addEventListener("input", () => {
+	//check if field empty
+	if (passwordInput.value === "") {
+		passwordInput.setCustomValidity("invalid Password");
+	} //check password length
+	else if (passwordInput.value.length < 7) {
+		passwordInput.setCustomValidity("Password need to be 8 character long");
+	} //check if password contain upper, loser,and number
+	else if (!/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])/.test(passwordInput.value)) {
+		passwordInput.setCustomValidity(
+			"Password need to contain at least: \n one Uppercase Letter \none lowercase Letter \n one number Letter \n"
+		);
+	} else {
+		passwordInput.setCustomValidity("");
+	}
+
+	passwordError.textContent = passwordInput.validationMessage;
+});
+
+//confirm password
+confirmPasswordInput.addEventListener("input", () => {
+	if (confirmPasswordInput.value === "") {
+		confirmPasswordInput.setCustomValidity("invalid Confirm Password");
+	} //check confirm password match password
+	else if (confirmPasswordInput.value !== passwordInput.value) {
+		confirmPasswordInput.setCustomValidity(
+			"Confirm password does not match the password"
+		);
+	} else {
+		confirmPasswordInput.setCustomValidity("");
+	}
+
+	passwordConfirmError.textContent = confirmPasswordInput.validationMessage;
+});
+
+form.addEventListener("submit", (e) => {
+	e.preventDefault();
+
+	if (!userNameInput.validity.valid) {
+		alert("Invalid username");
+		userNameInput.focus();
+		return;
+	}
+	if (!emailInput.validity.valid) {
+		alert("Invalid email");
+		emailInput.focus();
+		return;
+	}
+	if (!passwordInput.validity.valid) {
+		alert("Invalid password");
+		passwordInput.focus();
+		return;
+	}
+	if (!passwordConfirmInput.validity.valid) {
+		alert("Invalid confirm password");
+		passwordConfirmInput.focus();
+		return;
+	}
+
+	alert("You information is saved! 🎉");
+	form.reset();
+});
