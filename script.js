@@ -10,7 +10,7 @@ const emailError = document.querySelector("#emailError");
 const passwordError = document.querySelector("#passwordError");
 const passwordConfirmError = document.querySelector("#confirmPasswordError");
 
-//after document is loaded
+//after document is loaded access the LocalStorage
 document.addEventListener("DOMContentLoaded", function () {
 	if (localStorage.getItem("userNameFormMod5") !== null) {
 		userNameInput.value = localStorage.getItem("userNameFormMod5");
@@ -22,8 +22,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //username Input
 userNameInput.addEventListener("input", (e) => {
-	if (userNameInput.value === "") {
+	if (userNameInput.validity.valueMissing) {
 		userNameInput.setCustomValidity("Username cannot be empty");
+		console.log("not valid");
+	} else if (userNameInput.validity.tooShort) {
+		userNameInput.setCustomValidity("Username must be 4 character long");
 		console.log("not valid");
 	} else {
 		userNameInput.setCustomValidity("");
@@ -49,10 +52,10 @@ emailInput.addEventListener("input", (e) => {
 //password
 passwordInput.addEventListener("input", () => {
 	//check if field empty
-	if (passwordInput.value === "") {
+	if (passwordInput.validity.valueMissing) {
 		passwordInput.setCustomValidity("invalid Password");
 	} //check password length
-	else if (passwordInput.value.length < 7) {
+	else if (passwordInput.validity.tooShort) {
 		passwordInput.setCustomValidity("Password need to be 8 character long");
 	} //check if password contain upper, loser,and number
 	else if (!/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])/.test(passwordInput.value)) {
@@ -68,7 +71,7 @@ passwordInput.addEventListener("input", () => {
 
 //confirm password
 confirmPasswordInput.addEventListener("input", () => {
-	if (confirmPasswordInput.value === "") {
+	if (confirmPasswordInput.validity.valueMissing) {
 		confirmPasswordInput.setCustomValidity("invalid Confirm Password");
 	} //check confirm password match password
 	else if (confirmPasswordInput.value !== passwordInput.value) {
