@@ -14,7 +14,6 @@ const passwordConfirmError = document.querySelector("#confirmPasswordError");
 document.addEventListener("DOMContentLoaded", function () {
 	if (localStorage.getItem("userNameFormMod5") !== null) {
 		userNameInput.value = localStorage.getItem("userNameFormMod5");
-		console.log(localStorage.getItem("userNameFormMod5"));
 	} else {
 		console.log("No localStorage found");
 	}
@@ -24,13 +23,10 @@ document.addEventListener("DOMContentLoaded", function () {
 userNameInput.addEventListener("input", (e) => {
 	if (userNameInput.validity.valueMissing) {
 		userNameInput.setCustomValidity("Username cannot be empty");
-		console.log("not valid");
 	} else if (userNameInput.validity.tooShort) {
 		userNameInput.setCustomValidity("Username must be 4 character long");
-		console.log("not valid");
 	} else {
 		userNameInput.setCustomValidity("");
-		console.log("valid");
 	}
 	usernameError.textContent = userNameInput.validationMessage;
 });
